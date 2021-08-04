@@ -205,4 +205,33 @@ $(document).ready(function(){
             }
         })
     });
+
+    $("#btn_add").click(function() {
+        var first_name = $("#first_name").val();
+        var last_name = $("#last_name").val();
+        var email = $("#email").val();
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:8000/api/add-reporters",
+            contentType: "application/json",
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('access')}`
+            },
+            data: `
+                {
+                    "first_name": "${$("#modalAddNew #first_name").val()}",
+                    "last_name": "${$("#modalAddNew#last_name").val()}", 
+                    "email": "${$("#modalAddNew #email").val()}"
+                }
+            `,
+            success: function (data) {
+                $(".toast-body").text("Thêm thành công");
+                $('#liveToast').toast('show');
+            },
+            error: function ($xhr, textStatus, erroThrown) {
+                $(".toast-body").text($xhr.responseJSON.detail);
+                $('#liveToast').toast('show');
+            }
+        })
+    });
 });
