@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Document</title>
+
+    <style>
+       
+      </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Index</th>
+                        <th scope="col">Họ</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody">
+                  
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="viewDetailModal" tabindex="-1" aria-labelledby="viewDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewDetailModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+        $(document).ready(function() {
+          var accessToken;
+          async function getAccessToken() {
+            var data = {
+              username: "lehungvi",
+              password: "lehungvi"
+            }
+            const response = await fetch("http://localhost:8000/api/token",
+              {
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+                method: "POST"
+              }
+            );
+            if (response.status === 200) { 
+              var dataRes = await response.json();
+              //accessToken = dataRes.access;
+              return dataRes.access;
+            }
+          }
+          var accessToken = getAccessToken().then(data => {
+           return data ;
+          })
+          console.log(accessToken);
+          var dataHtml = '';
+          async function getAllData() {
+            var response = await fetch("http://localhost:8000/api/reporters",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            });
+            console.log(response.status);
+            console.log(response.statusText);
+            if (response.status === 200) {
+              var data = await response.json();
+              data.forEach((item, index) => {
+                var class_ = "row-even";
+                if (index % 2 === 0) {
+                    class_ = "row-odd";
+                }
+                dataHtml += `<tr class="${class_}">
+                  <td>${index + 1}</td>
+                  <td>${item.first_name}</td>
+                  <td>${item.last_name}</td>
+                  <td>${item.email}</td>
+                  <td><a href="http://localhost:8000/api/reporter/${item.id}" class="view_detail" data-id="${item.id}"><i class="bi bi-eye"></i></a> 
+                  </td>
+                </tr>`;
+              });
+              $("#tbody").append(dataHtml);
+            }
+          }
+          getAllData();
+        });
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+</body>
+</html>
