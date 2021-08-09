@@ -81,7 +81,7 @@ $(document).ready(function(){
         var password = $("#password").val();
         $.ajax({
             type: 'POST',
-            url: "http://localhost:8000/api/token",
+            url: "http://lehungvi.pythonanywhere.com/api/token",
             contentType: "application/json", 
             data: `{"username": "${$("#username").val()}","password": "${$("#password").val()}"}`,
             success: function (data) {
@@ -106,7 +106,7 @@ $(document).ready(function(){
         $(".loader").show();
         $.ajax({
             type: 'GET',
-            url: "http://localhost:8000/api/reporters",
+            url: "http://lehungvi.pythonanywhere.com/api/reporters",
             headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem('access')}`
             },
@@ -141,7 +141,7 @@ $(document).ready(function(){
         $(".loader").show();
         $.ajax({
             type: 'GET',
-            url: "http://localhost:8000/api/reporters-class",
+            url: "http://lehungvi.pythonanywhere.com/api/reporters-class",
             headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem('access')}`
             },
@@ -184,7 +184,7 @@ $(document).ready(function(){
         $(".loader").show();
         $.ajax({
             type: 'GET',
-            url: `http://localhost:8000/api/reporter/${$(this).data('id')}`,
+            url: `http://lehungvi.pythonanywhere.com/api/reporter/${$(this).data('id')}`,
             headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem('access')}`
             },
@@ -212,7 +212,7 @@ $(document).ready(function(){
         var email = $("#email").val();
         $.ajax({
             type: 'POST',
-            url: "http://localhost:8000/api/add-reporters",
+            url: "http://lehungvi.pythonanywhere.com/api/add-reporters",
             contentType: "application/json",
             headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem('access')}`
