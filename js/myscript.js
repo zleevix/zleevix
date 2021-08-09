@@ -157,7 +157,7 @@ $(document).ready(function(){
                       <td>${item.first_name}</td>
                       <td>${item.last_name}</td>
                       <td>${item.email}</td>
-                      <td><a href="http://localhost:8000/api/reporter-class/${item.id}" class="view_detail" data-id="${item.id}"><i class="bi bi-eye"></i></a> 
+                      <td><a href="https://lehungvi.pythonanywhere.com/api/reporter-class/${item.id}" class="view_detail" data-id="${item.id}"><i class="bi bi-eye"></i></a> 
                       </td>
                     </tr>`;
                 });
